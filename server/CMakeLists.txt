@@ -14,3 +14,7 @@ set(SOURCES
 )
 
 add_executable(server ${SOURCES})
+
+target_include_directories(server PRIVATE
+    ${CMAKE_SOURCE_DIR}/service
+)

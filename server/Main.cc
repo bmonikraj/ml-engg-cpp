@@ -2,8 +2,8 @@
 #include <format>
 #include <string>
 
-#include "service/Circle.h"
-#include "service/Square.h"
+#include "Circle.h"
+#include "Square.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl; 
