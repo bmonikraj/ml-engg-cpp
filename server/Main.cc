@@ -2,14 +2,21 @@
 #include <format>
 #include <string>
 
-#include "Circle.h"
-#include "Square.h"
+#include "service/Circle.h"
+#include "service/Square.h"
+#include "spdlog/spdlog.h"
 
 int main(int argc, char *argv[]) {
-    std::cout << "Hello, World!" << std::endl; 
+
+    /**
+     * Setting log level globally
+    */
+    spdlog::set_level(spdlog::level::debug);
+
+    spdlog::info("Hello, World!");
 
     if (argc < 3) {
-        std::cout << std::format("Length of the arguments = {} and it is not sufficient", argc) << std::endl;
+        spdlog::error("Length of the arguments = {} and it is not sufficient", argc);
         exit(1);
     }
 
@@ -19,13 +26,13 @@ int main(int argc, char *argv[]) {
     if (shapeKind == "circle") {
         Service::Circle circle(dimension);
         circle.computeArea();
-        std::cout << std::format("Area of circle = {}", std::to_string(circle.getArea())) << std::endl;
+        spdlog::info("Area of circle = {}", std::to_string(circle.getArea()));
     } else if (shapeKind == "square") {
         Service::Square square(dimension);
         square.computeArea();
-        std::cout << std::format("Area of square = {}", std::to_string(square.getArea())) << std::endl;
+        spdlog::info("Area of square = {}", std::to_string(square.getArea()));
     } else {
-        std::cout << "Invalid shape kind!" << std::endl;
+        spdlog::warn("Invalid shape kind!");
     }
 
     return 0;

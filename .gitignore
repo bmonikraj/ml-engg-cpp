@@ -47,3 +47,9 @@ CMakeUserPresets.json
 
 # Build dir
 build
+
+# Vendor libraries
+vendor 
+
+# VSCode 
+.vscode
