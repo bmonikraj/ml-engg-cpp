@@ -9,7 +9,7 @@ project(server
 )
 
 set(PREFIX_DIR vendor)
-set(VENDOR_PACKAGES_INCLUDE vendor)
+set(VENDOR_PACKAGES vendor)
 include(ExternalProject)
 
 ExternalProject_Add(
@@ -17,9 +17,21 @@ ExternalProject_Add(
     GIT_REPOSITORY git@github.com:gabime/spdlog.git
     GIT_TAG v1.14.1
     PREFIX ${PREFIX_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES_INCLUDE}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
     BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/spdlog-build && make -j
 )
+
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost_1_85_0.tar.gz)
+    ExternalProject_Add(
+        boost
+        URL https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.gz
+        PREFIX ${PREFIX_DIR}
+        CONFIGURE_COMMAND cp -r ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost/boost ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include
+        BUILD_COMMAND echo nothing to build...
+        INSTALL_COMMAND echo nothing to install...
+        TEST_COMMAND echo nothing to test...
+    )
+endif()
 
 # Define C++ source files
 set(
@@ -36,5 +48,5 @@ add_executable(server ${SOURCES})
 target_include_directories(
     server PRIVATE
     ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/${VENDOR_PACKAGES_INCLUDE}/include
+    ${CMAKE_SOURCE_DIR}/${VENDOR_PACKAGES}/include
 )
