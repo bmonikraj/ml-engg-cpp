@@ -19,6 +19,7 @@ ExternalProject_Add(
     PREFIX ${PREFIX_DIR}
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
     BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/spdlog-build && make -j
+    TEST_COMMAND echo nothing to test...
 )
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost_1_85_0.tar.gz)
@@ -32,6 +33,18 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost_1_85_0.tar.gz)
         TEST_COMMAND echo nothing to test...
     )
 endif()
+
+ExternalProject_Add(
+    oatpp
+    GIT_REPOSITORY git@github.com:oatpp/oatpp.git
+    GIT_TAG 1.3.0-latest
+    PREFIX ${PREFIX_DIR}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
+    BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/oatpp-build && make install
+    TEST_COMMAND echo nothing to test...
+    COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp
+    COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0
+)
 
 # Define C++ source files
 set(
