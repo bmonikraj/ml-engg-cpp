@@ -2,27 +2,49 @@
 #include <format>
 #include <string>
 #include <ctime>
+#include <typeinfo>
 
+#include "spdlog/spdlog.h"
+#include "toml++/toml.hpp"
+
+/** 
+ * DELETE
 #include "service/Circle.h"
 #include "service/Square.h"
-#include "spdlog/spdlog.h"
 #include "boost/random/mersenne_twister.hpp"
 #include "boost/random/uniform_int_distribution.hpp"
+**/
 
 int main(int argc, char *argv[]) {
 
-    /**
-     * Setting log level globally
-    */
-    spdlog::set_level(spdlog::level::debug);
-
-    spdlog::info("Hello, World!");
-
-    if (argc < 3) {
-        spdlog::error("Length of the arguments = {} and it is not sufficient", argc);
-        exit(1);
+    /** checking the argument length in command line */
+    if (argc < 1) {
+        std::cout<< "Length of the arguments = " << argc << " and it is not sufficient, absolute path of config.toml is required" << std::endl;
+        exit(101);
     }
 
+    /** Parsing config.toml file to load configurations */
+    auto config = toml::parse(argv[1]);
+
+    /** Setting log level globally */
+    std::string& log_level = config.as_table().at("log").at("level").as_string(); 
+    if (log_level == "DEBUG") {
+        spdlog::set_level(spdlog::level::debug);
+    } else if (log_level == "INFO") {
+        spdlog::set_level(spdlog::level::info);
+    } else if (log_level == "WARN") {
+        spdlog::set_level(spdlog::level::warn);
+    } else if (log_level == "ERR") {
+        spdlog::set_level(spdlog::level::err);
+    } else {
+        spdlog::set_level(spdlog::level::debug);
+    }
+
+    
+    spdlog::info("Hello, World!");
+    
+    /** 
+     * DELETE
     boost::random::mt19937 gen;
     gen.seed(std::time(0));
     boost::random::uniform_int_distribution<> dist(1, 583399531);
@@ -42,6 +64,7 @@ int main(int argc, char *argv[]) {
     } else {
         spdlog::warn("Invalid shape kind!");
     }
+    **/
 
     return 0;
 }

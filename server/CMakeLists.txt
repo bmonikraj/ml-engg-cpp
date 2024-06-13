@@ -12,17 +12,19 @@ set(PREFIX_DIR vendor)
 set(VENDOR_PACKAGES vendor)
 include(ExternalProject)
 
-ExternalProject_Add(
-    spdlog
-    GIT_REPOSITORY git@github.com:gabime/spdlog.git
-    GIT_TAG v1.14.1
-    PREFIX ${PREFIX_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
-    BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/spdlog-build && make -j
-    TEST_COMMAND echo nothing to test...
-)
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/spdlog)
+    ExternalProject_Add(
+        spdlog
+        GIT_REPOSITORY git@github.com:gabime/spdlog.git
+        GIT_TAG v1.14.1
+        PREFIX ${PREFIX_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
+        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/spdlog-build && make -j
+        TEST_COMMAND echo nothing to test...
+    )
+endif()
 
-if(NOT EXISTS ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost_1_85_0.tar.gz)
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/boost)
     ExternalProject_Add(
         boost
         URL https://archives.boost.io/release/1.85.0/source/boost_1_85_0.tar.gz
@@ -34,17 +36,33 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/boost_1_85_0.tar.gz)
     )
 endif()
 
-ExternalProject_Add(
-    oatpp
-    GIT_REPOSITORY git@github.com:oatpp/oatpp.git
-    GIT_TAG 1.3.0-latest
-    PREFIX ${PREFIX_DIR}
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
-    BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/oatpp-build && make install
-    TEST_COMMAND echo nothing to test...
-    COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp
-    COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0
-)
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp)
+    ExternalProject_Add(
+        oatpp
+        GIT_REPOSITORY git@github.com:oatpp/oatpp.git
+        GIT_TAG 1.3.0-latest
+        PREFIX ${PREFIX_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
+        BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/oatpp-build && make install
+        TEST_COMMAND echo nothing to test...
+        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp
+        COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0
+    )
+endif()
+
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml++)
+    ExternalProject_Add(
+        toml++
+        GIT_REPOSITORY git@github.com:ToruNiina/toml11.git
+        GIT_TAG v3.8.1
+        PREFIX ${PREFIX_DIR}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES} -DCMAKE_CXX_STANDARD=20
+        TEST_COMMAND echo nothing to test...
+        COMMAND mkdir ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml++
+        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml++
+        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml.hpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/toml++
+    )
+endif()
 
 # Define C++ source files
 set(
