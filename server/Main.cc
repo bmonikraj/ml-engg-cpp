@@ -7,6 +7,8 @@
 #include "spdlog/spdlog.h"
 #include "toml++/toml.hpp"
 
+#include "inbound/BaseRouter.h"
+
 /** 
  * DELETE
 #include "service/Circle.h"
@@ -24,7 +26,7 @@ int main(int argc, char *argv[]) {
     }
 
     /** Parsing config.toml file to load configurations */
-    auto config = toml::parse(argv[1]);
+    toml::value config = toml::parse(argv[1]);
 
     /** Setting log level globally */
     std::string& log_level = config.as_table().at("log").at("level").as_string(); 
@@ -34,14 +36,20 @@ int main(int argc, char *argv[]) {
         spdlog::set_level(spdlog::level::info);
     } else if (log_level == "WARN") {
         spdlog::set_level(spdlog::level::warn);
-    } else if (log_level == "ERR") {
+    } else if (log_level == "ERROR") {
         spdlog::set_level(spdlog::level::err);
     } else {
         spdlog::set_level(spdlog::level::debug);
     }
 
     
-    spdlog::info("Hello, World!");
+    spdlog::info("Starting Machine Learning Engineering Server ...");
+
+    Inbound::BaseRouter base_router(config);
+
+    base_router.init();
+    base_router.run();
+    base_router.destroy();
     
     /** 
      * DELETE

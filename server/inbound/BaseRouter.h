@@ -1,10 +1,17 @@
 #ifndef BASE_ROUTER
 #define BASE_ROUTER
 
+#include "toml++/toml.hpp"
+
 namespace Inbound {
     class BaseRouter {
+        private:
+            toml::value config;
         public:
-            virtual void run() = 0;
+            BaseRouter(toml::value& config);
+            void init();
+            void run();
+            void destroy();
     };
 };
 

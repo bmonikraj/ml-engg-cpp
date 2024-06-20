@@ -45,7 +45,8 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp)
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}
         BUILD_COMMAND cd ${CMAKE_BINARY_DIR}/${PREFIX_DIR}/src/oatpp-build && make install
         TEST_COMMAND echo nothing to test...
-        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp
+        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp/oatpp ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include
+        COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0/oatpp/oatpp-test ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include
         COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_PACKAGES}/include/oatpp-1.3.0
     )
 endif()
@@ -68,8 +69,9 @@ endif()
 set(
     SOURCES
     ${CMAKE_SOURCE_DIR}/Main.cc
-    ${CMAKE_SOURCE_DIR}/service/Circle.cc
-    ${CMAKE_SOURCE_DIR}/service/Square.cc
+    ${CMAKE_SOURCE_DIR}/inbound/BaseRouter.cc
+    ${CMAKE_SOURCE_DIR}/inbound/InfoRoute.cc
+    ${CMAKE_SOURCE_DIR}/service/InfoService.cc
 )
 
 # Compilation of the C++ source files
@@ -80,4 +82,9 @@ target_include_directories(
     server PRIVATE
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/${VENDOR_PACKAGES}/include
+)
+
+target_link_libraries(
+    server 
+    ${CMAKE_SOURCE_DIR}/${VENDOR_PACKAGES}/lib/oatpp-1.3.0/liboatpp.a
 )
