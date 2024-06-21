@@ -11,7 +11,7 @@ namespace Model {
         private:
         public:
             DTO_INIT(InfoResponse, DTO);
-            DTO_FIELD(Int32, statusCode);
+            DTO_FIELD(Int32, status_code);
             DTO_FIELD(String, message);
     };
 };
