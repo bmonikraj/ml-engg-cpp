@@ -71,7 +71,9 @@ set(
     ${CMAKE_SOURCE_DIR}/Main.cc
     ${CMAKE_SOURCE_DIR}/inbound/BaseRouter.cc
     ${CMAKE_SOURCE_DIR}/inbound/InfoRoute.cc
+    ${CMAKE_SOURCE_DIR}/inbound/EchoRoute.cc
     ${CMAKE_SOURCE_DIR}/service/InfoService.cc
+    ${CMAKE_SOURCE_DIR}/service/EchoService.cc
 )
 
 # Compilation of the C++ source files

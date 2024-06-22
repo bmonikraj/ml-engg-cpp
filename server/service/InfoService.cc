@@ -12,8 +12,8 @@ Service::InfoService::InfoService(toml::value& config) {
 }
 
 Model::InfoResponse::Wrapper Service::InfoService::info()  {
-    auto message = Model::InfoResponse::createShared();
-    message->message = "Up!";
-    message->status_code = 100;
-    return message;
+    auto response = Model::InfoResponse::createShared();
+    response->message = "Up!";
+    response->status_code = 100;
+    return response;
 }

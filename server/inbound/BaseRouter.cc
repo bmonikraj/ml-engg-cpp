@@ -6,6 +6,7 @@
 #include "oatpp/web/server/HttpConnectionHandler.hpp"
 #include "BaseRouter.h"
 #include "InfoRoute.h"
+#include "EchoRoute.h"
 #include <memory>
 
 Inbound::BaseRouter::BaseRouter(toml::value& config) {
@@ -23,6 +24,7 @@ void Inbound::BaseRouter::run() {
 
     /* Route addition */
     router->route("GET", "/info", std::make_shared<InfoRoute>(this->config));
+    router->route("POST", "/echo", std::make_shared<EchoRoute>(this->config));
 
     /* Create HTTP connection handler with router */
     auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);
