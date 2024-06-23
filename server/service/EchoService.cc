@@ -14,6 +14,9 @@ Service::EchoService::EchoService(toml::value& config) {
 
 Model::EchoResponse::Wrapper Service::EchoService::echo(Model::EchoRequest* request)  {
     auto response = Model::EchoResponse::createShared();
+    if (request->message.get() == NULL) {
+        SPDLOG_ERROR("param `message` is not passed as expected");
+    }
     response->echo = request->message;
     return response;
 }

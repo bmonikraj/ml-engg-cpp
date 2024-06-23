@@ -42,7 +42,7 @@ void Inbound::BaseRouter::run() {
     /* Create server which takes provided TCP connections and passes them to HTTP connection handler */
     oatpp::network::Server server(connectionProvider, connectionHandler);
 
-    spdlog::info("Server running at {}:{}", address, port);
+    SPDLOG_INFO("Server running at {}:{}", address, port);
 
     server.run();
 }

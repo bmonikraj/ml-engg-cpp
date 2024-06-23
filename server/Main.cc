@@ -41,38 +41,15 @@ int main(int argc, char *argv[]) {
     } else {
         spdlog::set_level(spdlog::level::debug);
     }
-
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%ST%z] [%l] [%s:%#] [process %P] [thread %t] [%!] %v");
     
-    spdlog::info("Starting Machine Learning Engineering Server ...");
+    SPDLOG_INFO("Starting Machine Learning Engineering Server ...");
 
     Inbound::BaseRouter base_router(config);
 
     base_router.init();
     base_router.run();
     base_router.destroy();
-    
-    /** 
-     * DELETE
-    boost::random::mt19937 gen;
-    gen.seed(std::time(0));
-    boost::random::uniform_int_distribution<> dist(1, 583399531);
-    spdlog::info("Randomly generated number using boost with constant seed is {}", dist(gen));
-
-    std::string shapeKind = argv[1];
-    float dimension = std::stof(argv[2]);
-
-    if (shapeKind == "circle") {
-        Service::Circle circle(dimension);
-        circle.computeArea();
-        spdlog::info("Area of circle = {}", std::to_string(circle.getArea()));
-    } else if (shapeKind == "square") {
-        Service::Square square(dimension);
-        square.computeArea();
-        spdlog::info("Area of square = {}", std::to_string(square.getArea()));
-    } else {
-        spdlog::warn("Invalid shape kind!");
-    }
-    **/
 
     return 0;
 }
