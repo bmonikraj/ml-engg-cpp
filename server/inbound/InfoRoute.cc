@@ -15,5 +15,7 @@ Inbound::InfoRoute::InfoRoute(toml::value& config) {
 }
 
 std::shared_ptr<oatpp::web::server::HttpRequestHandler::OutgoingResponse> Inbound::InfoRoute::handle(const std::shared_ptr<IncomingRequest> &request) {
+    SPDLOG_INFO("InfoRoute invoked");
+    
     return ResponseFactory::createResponse(Status::CODE_200, this->info_service.info(), this->object_mapper);
 }

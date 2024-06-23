@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     } else {
         spdlog::set_level(spdlog::level::debug);
     }
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%ST%z] [%l] [%s:%#] [process %P] [thread %t] [%!] %v");
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%ST%z] [%^%l%$] [%s:%#] [process %P] [thread %t] [%!] %v");
     
     SPDLOG_INFO("Starting Machine Learning Engineering Server ...");
 

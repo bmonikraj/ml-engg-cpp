@@ -16,6 +16,7 @@ Inbound::EchoRoute::EchoRoute(toml::value& config) {
 }
 
 std::shared_ptr<oatpp::web::server::HttpRequestHandler::OutgoingResponse> Inbound::EchoRoute::handle(const std::shared_ptr<IncomingRequest> &request) {
+    SPDLOG_INFO("InfoRoute invoked");
     
     if (request.get()->getHeader("Content-Type") != "application/json") {
         SPDLOG_ERROR("content-type must be application/json");
