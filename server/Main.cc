@@ -9,14 +9,6 @@
 
 #include "inbound/BaseRouter.h"
 
-/** 
- * DELETE
-#include "service/Circle.h"
-#include "service/Square.h"
-#include "boost/random/mersenne_twister.hpp"
-#include "boost/random/uniform_int_distribution.hpp"
-**/
-
 int main(int argc, char *argv[]) {
 
     /** checking the argument length in command line */
